@@ -19,6 +19,7 @@ class BookmarkList extends Component {
           {bookmarks.map(bookmark =>
             <BookmarkItem
               key={bookmark.id}
+              onClickUpdate={(bookmark) => { this.context.updateBookmark(bookmark) }}
               {...bookmark}
             />
           )}

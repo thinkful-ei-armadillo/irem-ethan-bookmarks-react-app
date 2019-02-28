@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import AddBookmark from './AddBookmark/AddBookmark';
+import UpdateBookmark from './UpdateBookmark/UpdateBookmark';
 import BookmarkList from './BookmarkList/BookmarkList';
 import BookmarksContext from './BookmarksContext';
 import Nav from './Nav/Nav';
@@ -26,6 +27,17 @@ class App extends Component {
     })
   }
 
+  updateBookmark = bookmark => {
+
+    const item = this.state.bookmarks.find((b) => {
+      return b.id = bookmark.id;
+    });
+
+
+    // TODO update bookmark in state
+    console.log('update in app.js')
+  }
+
   componentDidMount() {
     fetch(config.API_ENDPOINT, {
       method: 'GET',
@@ -48,6 +60,7 @@ class App extends Component {
     const contextValue = {
       bookmarks: this.state.bookmarks,
       addBookmark: this.addBookmark,
+      updateBookmark: this.updateBookmark,
     }
     return (
       <main className='App'>
@@ -58,6 +71,10 @@ class App extends Component {
             <Route
               path='/add-bookmark'
               component={AddBookmark}
+            />
+            <Route
+              path='/update-bookmark'
+              component={UpdateBookmark}
             />
             <Route
               exact
