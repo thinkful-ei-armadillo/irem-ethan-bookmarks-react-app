@@ -2,6 +2,28 @@ import React from 'react';
 import Rating from '../Rating/Rating';
 import './BookmarkItem.css';
 
+function deleteBookmarkRequest(bookmarkId, cb) {
+  fetch(config.API_ENDPOINT + `/${bookmarkId}`, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+      'authorization': `bearer ${config.API_KEY}`
+    }
+  })
+    .then(res => {
+      if (!res.ok) {
+        return res.json().then(error => Promise.reject(error))
+      }
+      return res.json()
+    })
+    .then(data => {
+      cb(bookmarkId)
+    })
+    .catch(error => {
+      console.error(error)
+    })
+}
+
 export default function BookmarkItem(props) {
   return (
     <li className='BookmarkItem'>
@@ -20,19 +42,14 @@ export default function BookmarkItem(props) {
         {props.description}
       </p>
       <div className='BookmarkItem__buttons'>
-        <button
-          className='BookmarkItem__description'
-          onClick={() => props.history.push(`/update-bookmark/${props.id}`)}
-        >
-          Update
-        </button>
-
-        <button
-          className='BookmarkItem__description'
-          onClick={() => props.onClickDelete(props.id)}
-        >
-          Delete
-        </button>
+        <Link to={`/update-bookmark/${props.id}`}>
+          Edit
+        </Link>
+          {' '}
+          <button className='BookmarkItem__description'
+            onClick={() =>deleteBookmarkRequest(props.id, context.deleteBookmark)}>
+            Delete
+          </button>
       </div>
     </li>
   )

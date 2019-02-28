@@ -62,7 +62,27 @@ class UpdateBookmark extends Component {
   };
 
   componentDidMount() {
-
+    function UpdateBookmarkRequest(bookmarkId, cb) {
+    fetch(config.API_ENDPOINT + `/${bookmarkId}`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'authorization': `bearer ${config.API_KEY}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(error => Promise.reject(error))
+        }
+        return res.json()
+      })
+      .then(data => {
+        cb(bookmarkId)
+      })
+      .catch(error => {
+        console.error(error)
+      })
+    }
     // fetch bookmark info
     // use that info to populate form values
   }

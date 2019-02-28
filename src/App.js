@@ -73,7 +73,7 @@ class App extends Component {
               component={AddBookmark}
             />
             <Route
-              path='/update-bookmark'
+              path='/update-bookmark' mathc={this.props.match}
               component={UpdateBookmark}
             />
             <Route
